@@ -33,7 +33,7 @@ class User extends Base {
 
   static async register(user) {
     this.validate(user);
-    const match = await User.filter(["username", "==", user.username])[0];
+    const match = (await User.filter(["username", "==", user.username]))[0];
     if (match) {
       throw new Error(`User with username ${user.username} already exists`);
     }
@@ -48,7 +48,7 @@ class User extends Base {
   }
 
   static async login({ username, password }) {
-    const user = await User.filter(["username", "==", username])[0];
+    const user = (await User.filter(["username", "==", username]))[0];
     if (!user) {
       throw new Error("Invalid username");
     }

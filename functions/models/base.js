@@ -49,8 +49,7 @@ class Base {
       });
       const snapshot = await ref.get();
       if (snapshot.empty) return null;
-      const users = this.parseUsersSnap(snapshot);
-      return users[0];
+      return this.parseSnap(snapshot);
     } catch (error) {
       console.error(error);
     }

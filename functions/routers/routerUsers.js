@@ -1,5 +1,4 @@
 const express = require("express");
-const uuid = require("uuid/v4");
 const User = require("../models/user");
 const Token = require("../models/token");
 
