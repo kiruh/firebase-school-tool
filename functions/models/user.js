@@ -14,7 +14,20 @@ class User extends Base {
   course;
   educationType;
 
-  static async createUser(user) {
+  json() {
+    return {
+      username: this.username,
+      facnum: this.facnum,
+      firstName: this.firstName,
+      middleName: this.middleName,
+      lastName: this.lastName,
+      specialty: this.specialty,
+      course: this.course,
+      educationType: this.educationType
+    };
+  }
+
+  static async register(user) {
     this.validate(user);
     const match = await User.filter(["username", "==", user.username])[0];
     if (match) {

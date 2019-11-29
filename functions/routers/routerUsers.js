@@ -12,11 +12,7 @@ routerUsers.post("/login", async (req, res, next) => {
     if (!user) {
       res.status(400).send("Could not login");
     }
-    const value = uuid();
-    const token = await Token.create({
-      userId: user.id,
-      value
-    });
+    const token = await Token.generateToken(user);
     res.cookie("user-token", token);
     res.status(200).send({ token: value });
   } catch (error) {
@@ -26,13 +22,19 @@ routerUsers.post("/login", async (req, res, next) => {
 });
 
 routerUsers.post("/register", async (req, res, next) => {
-  // todo
-});
-
-// A route to handle requests to any individual album, identified by an album id
-routerUsers.get("/:id", (req, res, next) => {
-  let myAlbumId = req.params.albumId;
-  // get album data from server and res.send() a response here
+  let user = req.body;
+  try {
+    user = await User.register(user);
+    if (!user) {
+      res.status(400).send("Could not register");
+    }
+    const token = await Token.generateToken(user);
+    res.cookie("user-token", token);
+    res.status(200).send(user.json());
+  } catch (error) {
+    console.error(error);
+    res.status(400).send(error);
+  }
 });
 
 module.exports = routerUsers;

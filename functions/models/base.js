@@ -23,6 +23,10 @@ class Base {
     Object.assign(this, props);
   }
 
+  json() {
+    return { ...this };
+  }
+
   static parseSnap(snapshot) {
     return snapToArray(snapshot)
       .map(parseDoc)

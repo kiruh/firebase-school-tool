@@ -1,3 +1,4 @@
+const uuid = require("uuid/v4");
 const Base = require("./base");
 const User = require("./user");
 
@@ -11,6 +12,15 @@ class Token extends Base {
     const token = await Token.filter(["token", "==", value])[0];
     if (!token) return null;
     return await User.get(token.userId);
+  }
+
+  static async generateToken(user) {
+    const value = uuid();
+    await Token.create({
+      userId: user.id,
+      value
+    });
+    return value;
   }
 
   static validate(token) {

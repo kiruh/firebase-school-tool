@@ -9,6 +9,6 @@ app.get("/timestamp", (request, response) => {
 });
 app.use(express.cookieParser());
 app.use(authMiddleware);
-app.use(routerUsers);
+app.use("/users", routerUsers);
 
 exports.app = functions.https.onRequest(app);
