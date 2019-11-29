@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const functions = require("firebase-functions");
 const { authMiddleware } = require("./middlewares");
 const routerUsers = require("./routers/routerUsers");
+const routerCourseworks = require("./routers/routerCourseworks");
 
 const app = express();
 app.use((req, res, next) => {
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use(authMiddleware);
 const routerAPI = express.Router();
 routerAPI.use("/users", routerUsers);
+routerAPI.use("/courseworks", routerCourseworks);
 app.use("/api", routerAPI);
 
 exports.app = functions.https.onRequest(app);

@@ -34,6 +34,11 @@ routerUsers.post("/register", async (req, res, next) => {
   }
 });
 
+routerUsers.delete("/logout", async (req, res, next) => {
+  res.cookie("user-token", token, { expires: Date.now() });
+  res.status(200).end();
+});
+
 routerUsers.get("/auth", async (req, res, next) => {
   res.send(req.user ? req.user.json() : null);
 });
