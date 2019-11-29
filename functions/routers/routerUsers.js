@@ -13,7 +13,7 @@ routerUsers.post("/login", async (req, res, next) => {
     }
     const token = await Token.generateToken(user);
     res.cookie("user-token", token);
-    res.status(200).send({ token: value });
+    res.status(200).send({ token });
   } catch (error) {
     res.status(400).send(String(error));
   }
@@ -32,6 +32,10 @@ routerUsers.post("/register", async (req, res, next) => {
   } catch (error) {
     res.status(400).send(String(error));
   }
+});
+
+routerUsers.get("/auth", async (req, res, next) => {
+  res.send(req.user ? req.user.json() : null);
 });
 
 module.exports = routerUsers;

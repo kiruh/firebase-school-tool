@@ -52,7 +52,7 @@ class User extends Base {
     if (!user) {
       throw new Error("Invalid username");
     }
-    const hash = this.getPasswordHash(password, user.passsalt);
+    const { hash } = this.getPasswordHash(password, user.passsalt);
     if (hash !== user.password) {
       throw new Error("Invalid password");
     }
