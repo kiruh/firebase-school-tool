@@ -12,7 +12,7 @@ class Token extends Base {
   }
 
   static async resolveUser(value) {
-    const token = (await Token.filter(["token", "==", value]))[0];
+    const token = (await Token.filter(["value", "==", value]))[0];
     if (!token) return null;
     return await User.get(token.userId);
   }

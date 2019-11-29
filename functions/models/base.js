@@ -2,8 +2,10 @@ const db = require("./db");
 
 // helpers
 const snapToArray = snapshot => {
+  if (snapshot.empty) return [];
   const arr = [];
-  snapshot.forEach(doc => {
+  const docs = snapshot.docs || [snapshot];
+  docs.forEach(doc => {
     arr.push(doc);
   });
   return arr;
@@ -48,7 +50,6 @@ class Base {
         ref = ref.where(...filter);
       });
       const snapshot = await ref.get();
-      if (snapshot.empty) return null;
       return this.parseSnap(snapshot);
     } catch (error) {
       console.error(error);
@@ -62,13 +63,12 @@ class Base {
         .collection(this.collection)
         .doc(id)
         .get();
-      if (snapshot.empty) return null;
       const objs = this.parseSnap(snapshot);
       return objs[0];
     } catch (error) {
       console.error(error);
     }
-    return false;
+    return null;
   }
 
   static async create(obj) {
