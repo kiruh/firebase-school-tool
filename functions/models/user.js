@@ -16,7 +16,7 @@ class User extends Base {
 
   static async createUser(user) {
     this.validate(user);
-    const match = await Base.filter(["username", "==", user.username]);
+    const match = await User.filter(["username", "==", user.username])[0];
     if (match) {
       throw new Error(`User with username ${user.username} already exists`);
     }
@@ -31,7 +31,7 @@ class User extends Base {
   }
 
   static async login({ username, password }) {
-    const user = await Base.filter(["username", "==", username]);
+    const user = await User.filter(["username", "==", username])[0];
     if (!user) {
       throw new Error("Invalid username");
     }
@@ -58,7 +58,7 @@ class User extends Base {
       (?=.*[A-Z])   - at least 1 uppercase alphabetical character
       (?=.*[0-9])   - at least 1 numeric character
       (?=.*[-_@*])  - at least one special character ('-','_', '@', '*')
-      .{6,30}       - from 6 to 30 characters
+      .{6,30}       - from 6 to 30 characters long
       $             - end of string
     */
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_@*]).{6,30}$/;
@@ -68,11 +68,21 @@ class User extends Base {
   static validate(user) {
     const errors = [];
     if (!user.username) errors.push("user.username is required");
+    if (user.username.length < 5 || user.username.length > 20)
+      errors.push("user.username has to be from 5 to 20 characters long");
     if (!user.facnum) errors.push("user.facnum is required");
+    if (user.facnum.length !== 10)
+      errors.push("user.username has to be 10 characters long");
     if (!user.firstName) errors.push("user.firstName is required");
+    if (user.firstName.length > 100)
+      errors.push("user.firstName has to be less than 100 characters long");
     if (!user.lastName) errors.push("user.lastName is required");
+    if (user.lastName.length > 100)
+      errors.push("user.lastName has to be less than 100 characters long");
     if (!user.password) errors.push("user.password is required");
     if (!user.specialty) errors.push("user.specialty is required");
+    if (user.specialty.length > 100)
+      errors.push("user.specialty has to be less than 100 characters long");
     if (!user.course) errors.push("user.course is required");
     if (!user.educationType) errors.push("user.educationType is required");
     if (errors.length) {
