@@ -17,7 +17,7 @@ routerUsers.post("/login", async (req, res, next) => {
     res.status(200).send({ token: value });
   } catch (error) {
     console.error(error);
-    res.status(400).send(error);
+    res.status(400).send(String(error));
   }
 });
 
@@ -33,7 +33,7 @@ routerUsers.post("/register", async (req, res, next) => {
     res.status(200).send(user.json());
   } catch (error) {
     console.error(error);
-    res.status(400).send(error);
+    res.status(400).send(String(error));
   }
 });
 

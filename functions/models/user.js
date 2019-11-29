@@ -1,18 +1,22 @@
 const Base = require("./base");
 
 class User extends Base {
-  static collection = "users";
-
-  username;
-  facnum;
-  firstName;
-  middleName;
-  lastName;
-  password;
-  passsalt;
-  specialty;
-  course;
-  educationType;
+  constructor(props) {
+    const defs = {
+      username: undefined,
+      facnum: undefined,
+      firstName: undefined,
+      middleName: undefined,
+      lastName: undefined,
+      password: undefined,
+      passsalt: undefined,
+      specialty: undefined,
+      course: undefined,
+      educationType: undefined
+    };
+    super({ ...defs, ...props });
+    Coursework.collection = "users";
+  }
 
   json() {
     return {
@@ -81,21 +85,31 @@ class User extends Base {
   static validate(user) {
     const errors = [];
     if (!user.username) errors.push("user.username is required");
-    if (user.username.length < 5 || user.username.length > 20)
-      errors.push("user.username has to be from 5 to 20 characters long");
+    else {
+      if (user.username.length < 5 || user.username.length > 20)
+        errors.push("user.username has to be from 5 to 20 characters long");
+    }
     if (!user.facnum) errors.push("user.facnum is required");
-    if (user.facnum.length !== 10)
-      errors.push("user.username has to be 10 characters long");
+    else {
+      if (user.facnum.length !== 10)
+        errors.push("user.username has to be 10 characters long");
+    }
     if (!user.firstName) errors.push("user.firstName is required");
-    if (user.firstName.length > 100)
-      errors.push("user.firstName has to be less than 100 characters long");
+    else {
+      if (user.firstName.length > 100)
+        errors.push("user.firstName has to be less than 100 characters long");
+    }
     if (!user.lastName) errors.push("user.lastName is required");
-    if (user.lastName.length > 100)
-      errors.push("user.lastName has to be less than 100 characters long");
+    else {
+      if (user.lastName.length > 100)
+        errors.push("user.lastName has to be less than 100 characters long");
+    }
     if (!user.password) errors.push("user.password is required");
     if (!user.specialty) errors.push("user.specialty is required");
-    if (user.specialty.length > 100)
-      errors.push("user.specialty has to be less than 100 characters long");
+    else {
+      if (user.specialty.length > 100)
+        errors.push("user.specialty has to be less than 100 characters long");
+    }
     if (!user.course) errors.push("user.course is required");
     if (!user.educationType) errors.push("user.educationType is required");
     if (errors.length) {

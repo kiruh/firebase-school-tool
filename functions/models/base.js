@@ -16,11 +16,10 @@ const parseDoc = doc => {
 };
 
 class Base {
-  // override collection
-  static collection = undefined;
-
   constructor(props = {}) {
     Object.assign(this, props);
+    // override collection in children
+    Base.collection = undefined;
   }
 
   json() {

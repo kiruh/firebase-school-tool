@@ -3,10 +3,14 @@ const Base = require("./base");
 const User = require("./user");
 
 class Token extends Base {
-  static collection = "tokens";
-
-  userId;
-  value;
+  constructor(props) {
+    const defs = {
+      userId: undefined,
+      facnvalueum: undefined
+    };
+    super({ ...defs, ...props });
+    Coursework.collection = "tokens";
+  }
 
   static async resolveUser(value) {
     const token = await Token.filter(["token", "==", value])[0];

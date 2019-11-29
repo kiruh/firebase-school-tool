@@ -5,7 +5,7 @@ const serviceAccountKey = require("../serviceAccountKey");
 let db;
 try {
   firebase.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: firebase.credential.cert(serviceAccountKey),
     databaseURL: "https://school-tool-5022e.firebaseio.com"
   });
   db = firebase.firestore();
@@ -13,4 +13,4 @@ try {
   console.error(error);
 }
 
-module.exports = { db };
+module.exports = db;
