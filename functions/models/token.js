@@ -9,7 +9,6 @@ class Token extends Base {
       facnvalueum: undefined
     };
     super({ ...defs, ...props });
-    Coursework.collection = "tokens";
   }
 
   static async resolveUser(value) {
@@ -36,5 +35,6 @@ class Token extends Base {
     }
   }
 }
+Token.collection = "tokens";
 
 module.exports = Token;

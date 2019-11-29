@@ -18,8 +18,6 @@ const parseDoc = doc => {
 class Base {
   constructor(props = {}) {
     Object.assign(this, props);
-    // override collection in children
-    Base.collection = undefined;
   }
 
   json() {
@@ -29,7 +27,7 @@ class Base {
   static parseSnap(snapshot) {
     return snapToArray(snapshot)
       .map(parseDoc)
-      .map(obj => new Base(obj));
+      .map(obj => new this(obj));
   }
 
   static async getAll() {
@@ -78,7 +76,7 @@ class Base {
     this.validate(obj);
     try {
       const ref = await db.collection(this.collection).add(obj);
-      return new Base({ id: ref.id, ...obj });
+      return new this({ id: ref.id, ...obj });
     } catch (error) {
       console.error(error);
     }
@@ -103,7 +101,7 @@ class Base {
     const { id } = obj;
     let existing = await this.get(id);
     if (existing) {
-      existing = new Base({
+      existing = new this({
         ...existing,
         ...obj
       });
@@ -133,5 +131,7 @@ class Base {
     }
   }
 }
+// override collection in children
+Base.collection = undefined;
 
 module.exports = Base;

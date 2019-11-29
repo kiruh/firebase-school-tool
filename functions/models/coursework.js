@@ -8,7 +8,6 @@ class Coursework extends Base {
       file: undefined
     };
     super({ ...defs, ...props });
-    Coursework.collection = "courseworks";
   }
 
   static validate(coursework) {
@@ -25,5 +24,6 @@ class Coursework extends Base {
     }
   }
 }
+Coursework.collection = "courseworks";
 
 module.exports = Coursework;

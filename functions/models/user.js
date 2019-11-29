@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const Base = require("./base");
 
 class User extends Base {
@@ -15,7 +16,6 @@ class User extends Base {
       educationType: undefined
     };
     super({ ...defs, ...props });
-    Coursework.collection = "users";
   }
 
   json() {
@@ -39,7 +39,7 @@ class User extends Base {
     }
     const success = this.validatePassword(user.password);
     if (!success) {
-      throw new Error("Invalid password");
+      throw new Error("Password is not strong enough");
     }
     const { salt, hash } = this.getPasswordHash(user.password);
     user.passsalt = salt;
@@ -111,11 +111,20 @@ class User extends Base {
         errors.push("user.specialty has to be less than 100 characters long");
     }
     if (!user.course) errors.push("user.course is required");
+    else {
+      if (![1, 2, 3, 4].includes(user.course))
+        errors.push("user.course is invalid");
+    }
     if (!user.educationType) errors.push("user.educationType is required");
+    else {
+      if (!["ft", "pt"].includes(user.educationType))
+        errors.push("user.educationType is invalid");
+    }
     if (errors.length) {
       throw new Error(`Invalid user (${errors.join(", ")})`);
     }
   }
 }
+User.collection = "users";
 
 module.exports = User;
