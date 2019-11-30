@@ -41,7 +41,7 @@ app.use(
 
 // define web router
 const toIndex = (req, res, next) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  res.sendFile(path.join(__dirname, "./web-build/index.html"));
 };
 app.get("/login", toIndex);
 app.get("/register", toIndex);
