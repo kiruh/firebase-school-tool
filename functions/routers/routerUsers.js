@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../models/user");
 const Token = require("../models/token");
+const { authCookie } = require("../middlewares");
 
 const routerUsers = express.Router();
 
@@ -12,7 +13,7 @@ routerUsers.post("/login", async (req, res, next) => {
       res.status(400).send("Could not login");
     }
     const token = await Token.generateToken(user);
-    res.cookie("user-token", token);
+    res.cookie(authCookie, token);
     res.status(200).send({ token });
   } catch (error) {
     res.status(400).send(String(error));
@@ -27,7 +28,7 @@ routerUsers.post("/register", async (req, res, next) => {
       res.status(400).send("Could not register");
     }
     const token = await Token.generateToken(user);
-    res.cookie("user-token", token);
+    res.cookie(authCookie, token);
     res.status(200).send(user.json());
   } catch (error) {
     res.status(400).send(String(error));
@@ -35,7 +36,7 @@ routerUsers.post("/register", async (req, res, next) => {
 });
 
 routerUsers.delete("/logout", async (req, res, next) => {
-  res.cookie("user-token", null, { maxAge: 0 });
+  res.cookie(authCookie, null, { maxAge: 0 });
   res.status(200).end();
 });
 
