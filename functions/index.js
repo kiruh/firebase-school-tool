@@ -1,11 +1,13 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const functions = require("firebase-functions");
-const { authMiddleware } = require("./middlewares");
+const { fileParser } = require("express-multipart-file-parser");
 const routerUsers = require("./routers/routerUsers");
 const routerCourseworks = require("./routers/routerCourseworks");
+const { authMiddleware } = require("./middlewares");
 
 const app = express();
+// enable cors
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -19,8 +21,22 @@ app.use((req, res, next) => {
   }
   return next();
 });
+// parse cookies
 app.use(cookieParser());
+// parse user
 app.use(authMiddleware);
+// parse files
+app.use(
+  fileParser({
+    busboyOptions: {
+      limits: {
+        fileSize: 1000 * 1000 * 5 // mb
+      }
+    }
+  })
+);
+
+// define routes
 const routerAPI = express.Router();
 routerAPI.use("/users", routerUsers);
 routerAPI.use("/courseworks", routerCourseworks);

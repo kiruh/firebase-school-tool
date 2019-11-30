@@ -57,3 +57,17 @@ export const fetchCourseworks = async () => {
   }
   return null;
 };
+
+export const saveCoursework = async coursework => {
+  try {
+    const response = await axios.post("/api/courseworks", coursework, {
+      headers: {
+        "content-type": "multipart/form-data"
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};

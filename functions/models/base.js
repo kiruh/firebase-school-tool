@@ -1,4 +1,4 @@
-const db = require("./db");
+const { db } = require("../connections");
 
 // helpers
 const snapToArray = snapshot => {
@@ -74,7 +74,7 @@ class Base {
   static async create(obj) {
     this.validate(obj);
     try {
-      const ref = await db.collection(this.collection).add(obj);
+      const ref = await db.collection(this.collection).add({ ...obj });
       return new this({ id: ref.id, ...obj });
     } catch (error) {
       console.error(error);
@@ -88,7 +88,7 @@ class Base {
       await db
         .collection(this.collection)
         .doc(obj.id)
-        .set(obj);
+        .set({ ...obj });
       return obj;
     } catch (error) {
       console.error(error);
