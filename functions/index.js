@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const functions = require("firebase-functions");
@@ -36,7 +37,14 @@ app.use(
   })
 );
 
-// define routes
+// define web router
+const webRoutes = ["/login", "/register", "/courseworks", "/upload"];
+webRoutes.forEach(route => {
+  app.get(route, (req, res, next) => {
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  });
+});
+// define api router
 const routerAPI = express.Router();
 routerAPI.use("/users", routerUsers);
 routerAPI.use("/courseworks", routerCourseworks);
