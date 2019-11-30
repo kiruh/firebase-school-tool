@@ -11,7 +11,9 @@ const app = express();
 // enable cors
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  if (process.env.NODE_ENV === "development") {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  }
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
@@ -38,12 +40,13 @@ app.use(
 );
 
 // define web router
-const webRoutes = ["/login", "/register", "/courseworks", "/upload"];
-webRoutes.forEach(route => {
-  app.get(route, (req, res, next) => {
-    res.sendFile(path.join(__dirname, "../client/build/index.html"));
-  });
-});
+const toIndex = (req, res, next) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+};
+app.get("/login", toIndex);
+app.get("/register", toIndex);
+app.get("/courseworks", toIndex);
+app.get("/upload", toIndex);
 // define api router
 const routerAPI = express.Router();
 routerAPI.use("/users", routerUsers);
