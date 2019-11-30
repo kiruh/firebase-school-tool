@@ -45,16 +45,28 @@ class App extends React.Component {
           <Route exact path="/">
             <Redirect to={user ? "/courseworks" : "/login"} />
           </Route>
-          <Route path="/login">
-            {anonRequired(<LoginForm onLogin={this.onLogin} />)}
-          </Route>
-          <Route path="/register">
-            {anonRequired(<RegisterForm onLogin={this.onLogin} />)}
-          </Route>
-          <Route path="/courseworks">
-            {authRequired(<Courseworks onLogout={this.onLogout} />)}
-          </Route>
-          <Route path="/upload">{authRequired(<UploadForm />)}</Route>
+          <Route
+            path="/login"
+            render={props =>
+              anonRequired(<LoginForm onLogin={this.onLogin} {...props} />)
+            }
+          />
+          <Route
+            path="/register"
+            render={props =>
+              anonRequired(<RegisterForm onLogin={this.onLogin} {...props} />)
+            }
+          />
+          <Route
+            path="/courseworks"
+            render={props =>
+              authRequired(<Courseworks onLogout={this.onLogout} {...props} />)
+            }
+          />
+          <Route
+            path="/upload"
+            render={props => authRequired(<UploadForm {...props} />)}
+          />
         </>
       </Router>
     );

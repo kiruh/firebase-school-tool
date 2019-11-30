@@ -35,7 +35,7 @@ routerUsers.post("/register", async (req, res, next) => {
 });
 
 routerUsers.delete("/logout", async (req, res, next) => {
-  res.cookie("user-token", token, { expires: Date.now() });
+  res.cookie("user-token", null, { maxAge: 0 });
   res.status(200).end();
 });
 
