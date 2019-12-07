@@ -9,8 +9,12 @@ Checkout this app running on [firebase](https://school-tool-5022e.firebaseapp.co
 Or you can run it locally by running
 
 ```bash
+# build client
 cd client
+npm install
 npm run build
+# run server
 cd ../functions
+npm install
 npm run serve
 ```
