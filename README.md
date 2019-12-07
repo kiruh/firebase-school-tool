@@ -9,6 +9,8 @@ Checkout this app running on [firebase](https://school-tool-5022e.firebaseapp.co
 Or you can run it locally by running
 
 ```bash
-cd functions
+cd client
+npm run build
+cd ../functions
 npm run serve
 ```
