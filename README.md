@@ -1,4 +1,4 @@
-# school-tool
+# School tool
 
 This app was created as part of Plovidiv University education course.
 
