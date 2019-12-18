@@ -5,8 +5,12 @@ const { bucket } = require("../connections");
 const routerCourseworks = express.Router();
 
 routerCourseworks.get("/", async (req, res, next) => {
+  const { user } = req;
+  if (!user) {
+    return res.status(400).send("Authentication is required");
+  }
   try {
-    const courseworks = await Coursework.getAll();
+    const courseworks = await Coursework.filter(["userId", "==", user.id]);
     res.send({ results: courseworks });
   } catch (error) {
     res.status(400).send(String(error));
@@ -37,6 +41,10 @@ const uploadFile = file => {
 };
 
 routerCourseworks.post("/", async (req, res, next) => {
+  const { user } = req;
+  if (!user) {
+    return res.status(400).send("Authentication is required");
+  }
   const { name } = req.body;
   const [file] = req.files;
   if (!name) {
@@ -53,7 +61,8 @@ routerCourseworks.post("/", async (req, res, next) => {
     const coursework = await Coursework.create({
       name,
       file: filepath,
-      date: new Date().toISOString()
+      date: new Date().toISOString(),
+      userId: user.id
     });
     return res.send(coursework.json());
   } catch (error) {

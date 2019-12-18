@@ -1,1 +1,1 @@
-console.log('Easter egg');
+console.log("Easter egg", "Hello world");

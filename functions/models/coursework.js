@@ -5,7 +5,8 @@ class Coursework extends Base {
     const defs = {
       name: undefined,
       date: undefined,
-      file: undefined
+      file: undefined,
+      userId: undefined
     };
     super({ ...defs, ...props });
   }
@@ -19,6 +20,7 @@ class Coursework extends Base {
     }
     if (!coursework.date) errors.push("coursework.date is required");
     if (!coursework.file) errors.push("coursework.file is required");
+    if (!coursework.userId) errors.push("coursework.userId is required");
     if (errors.length) {
       throw new Error(`Invalid coursework (${errors.join(", ")})`);
     }
